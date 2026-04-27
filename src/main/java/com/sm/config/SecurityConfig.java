@@ -11,12 +11,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> {}) // ✅ allow cross-origin properly
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // 🔥 temporarily open everything
-            );
+    	http
+        .csrf(csrf -> csrf.disable())
+        .cors(cors -> {})   // 👈 THIS LINE
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/**").permitAll()
+            .anyRequest().authenticated()
+        );
 
         return http.build();
     }
